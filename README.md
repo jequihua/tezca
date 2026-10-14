@@ -1,91 +1,72 @@
-# Tezca: environmental time-series analysis
+# Tezca
 
-Tezca describes individual signals, collective variation, frequency coupling,
-and sensitivity to missing or supplied replacement values. It accepts ordinary
-arrays and pandas inputs with explicit time, units and provenance, and saves
-numerical results that another process can validate without refitting.
+Tezca is a Python package for environmental time-series analysis. It describes
+individual signals, regular and irregular spectra, collective structure, networks,
+coherence and exploratory regimes. Results retain support, provenance, method
+settings and reusable reference identities, and can be saved for validated reload.
 
-**New here?** Use [Start here](04_delivery/README.md), then the
-[source/wheel quickstart](04_delivery/guides/quickstart.md). The
-[complete API cheat sheet](08_pkg/docs/api_cheatsheet.md) lists public module functions,
-constructors, methods and accessors, including those outside root imports.
+## Install
 
-This is the unreleased `0.1.0.dev0` candidate for local testing. Historical parity,
-real-data/domain evidence and reuse/distribution terms remain unresolved. Local
-engineering checks do not settle those questions or authorize sharing and
-publication. Read the [qualification record](04_delivery/qualification.md)
-for actual evidence, exact environments, limits and owners of the remaining work.
+Use Python 3.11 or newer in your own virtual environment. From this checkout:
 
-## Start with your question
+```text
+python --version
+python -m venv .venv
+```
 
-| Task | Methods and guidance |
-| --- | --- |
-| Describe one signal | [Statistics, trends, exact ACF and daily residuals](08_pkg/docs/individual.md) |
-| Describe periodicity and spectral shape | [Welch](08_pkg/docs/spectral.md), [models, peaks and bands](08_pkg/docs/spectral_summary.md), [harmonic diagnostics](08_pkg/docs/harmonic.md), [actual-time irregular spectra](08_pkg/docs/irregular.md) |
-| Describe distributions | [Discrete FI1](08_pkg/docs/fi1.md), [histogram-interior and KDE density Fisher](08_pkg/docs/density_fisher.md) |
-| Combine declared sources | [Collective preparation](08_pkg/docs/collective.md), [full-spectrum PCA](08_pkg/docs/pca.md), [signed networks](08_pkg/docs/network.md) |
-| Compare coupled signals and states | [Report-style coherence](08_pkg/docs/coherence.md), [pooled coherence](08_pkg/docs/coherence_modern.md), [graph-state roughness](08_pkg/docs/graph_state.md) |
-| Compare reconstructions or exploratory regimes | [Matched sensitivity](08_pkg/docs/sensitivity.md), [candidate regimes](08_pkg/docs/regimes.md) |
-| Save and validate numerical results | [CSV/JSON exports and reload](08_pkg/docs/exports.md) |
+Activate it (`.venv\Scripts\Activate.ps1` in PowerShell or
+`source .venv/bin/activate` in a POSIX shell), then run:
 
-The [method-selection guide](04_delivery/guides/choose_methods.md) explains
-raw versus residual, regular versus irregular, observed versus supplied and
-self-fitted versus frozen choices. Use explicit method specs: named policies
-retain unresolved scientific declarations, and `AnalysisPolicy.method_spec()`
-does not automatically wire these implemented methods into an executable recipe.
+```text
+python -m pip install .
+python -m pip check
+```
 
-## Installation and the complete example
+For editable development use `python -m pip install -e .`.
+Optional YAML policies use `python -m pip install ".[yaml]"`; native clustering
+models use `python -m pip install ".[models]"`.
+With Git installed, install directly from GitHub using:
 
-This source checkout keeps `pyproject.toml`, `08_pkg/README.md` and `08_pkg/src`
-together for builds. Follow the [source/wheel quickstart](04_delivery/guides/quickstart.md)
-to build from this checkout and install the resulting local wheel using
-approved offline dependencies. No retained wheel is bundled and no unpublished
-PyPI installation by name is implied. This checkout is distinct from the earlier
-wheel-only development handoff.
+```text
+python -m pip install "tezca @ git+https://github.com/jequihua/tezca.git"
+```
 
-Run `08_pkg/examples/delivery.py analyze NEW_DIRECTORY` with the installed
-interpreter, then exit and run `reload DIRECTORY --expected-identity DIRECTORY.identity.json`
-in a fresh process. The supplied route adds `--completion supplied`. All inputs
-are deterministic synthetic generators. Sibling helpers `result_exports.py` and
-`delivery_labels.py` are included. `08_pkg/examples/read_bundle_stdlib.py DIRECTORY`
-checks saved bytes using only the standard library. The quickstart gives copyable
-commands, useful values, all 18 export families and the withheld-band reason.
-The examples are source files, not installed modules.
+See [installation](docs/installation.md) for commit pinning and offline use.
+Installation provides the import package. Get examples, docs and tests from a
+checkout; they are not installed commands. No PyPI release is asserted.
 
-## Inputs, dependencies and interpretation
+## A real API example
 
-The package declares Python >=3.11, NumPy >=2.0,<3, pandas >=2.2,<3 and
-SciPy >=1.14,<2. Declared ranges are not proof of every version/platform.
-Qualification lists the exact exercised Windows environments. Optional YAML
-loading needs PyYAML (`yaml` extra); native KMeans/DBSCAN and StandardScaler need
-scikit-learn (`models` extra). Core and custom-regime routes need neither extra.
+```python
+import numpy as np
+import pandas as pd
+from tezca.data import AnalysisSeries
+from tezca.individual import describe_series
 
-The [EcoFill adapter](08_pkg/docs/ecofill.md) accepts the admitted EcoFill 0.0.1 public
-objects in its separately qualified Python 3.12 environment. It consumes available
-or completed values and explicit masks/provenance, excluding hidden truth.
-Its format-1 export loader works in core without importing EcoFill or reading
-`raw.csv`. No arbitrary EcoFill version is implied.
+signal = AnalysisSeries(
+    [1., 2., 3., 4.], variables=["x"],
+    time=pd.date_range("2000-01-01", periods=4, freq="h", tz="UTC"),
+    metadata={"x": {"unit": "m", "representation": "raw"}},
+    source={"id": "small-observed-example", "segment": "synthetic"},
+    observed=np.ones(4, dtype=bool), clock={"mode": "regular", "cadence": "1h"},
+)
+mean = next(r for r in describe_series(signal) if r.summary()["method_id"] == "individual.mean_v1")
+print(mean.value)  # 2.5
+```
 
-[Foundation guidance](08_pkg/docs/foundation.md) explains owned inputs/results, clocks,
-masks, support and references. A finite value is not automatically observed.
-Analysis never reconstructs missing values implicitly or compresses gaps into
-continuous support. [Understand results](04_delivery/guides/understand_results.md)
-before interpreting computation, metric and use statuses. A primary-eligible
-number is not an ecological, causal or historical-parity conclusion.
+A finite replacement value is not automatically an observation. Declare supplied
+values and their provenance explicitly; Tezca never completes gaps implicitly.
+Missing results retain a reason and support rather than becoming zero. Fit
+reference transforms on declared training data and reuse them without refitting.
 
-Tezca has no plotting or rendering API, dependency or notebook implementation.
-Saved values can support downstream applications following the separate
-[visualization guidelines](docs/visualization_guidelines.md). No legacy code
-or private measurements are included; no license or redistribution permission
-is inferred from local installation.
+Follow the [quickstart](docs/quickstart.md) for both observed and supplied workflows,
+all 18 export families, expected-identity reload and the independent stdlib reader.
+The [API sheet](docs/api_cheatsheet.md) covers every public calling form.
+Use the [method guide](docs/guides/choose_methods.md), [result interpretation](docs/guides/understand_results.md)
+and [qualification and limitations](docs/qualification.md) before drawing scientific conclusions.
+Tezca has no plotting dependency or API; see [downstream visualization guidance](docs/visualization_guidelines.md).
 
-For difficulties, use [troubleshooting](04_delivery/guides/troubleshooting.md),
-[migration and limitations](04_delivery/guides/migration_and_limits.md), and
-the [safe colleague-testing guide](04_delivery/guides/colleague_testing.md).
-
-## Checkout identity
-
-`.front_repo_sync.json` records the development source commit, dirty-source flag,
-manifest hash and every projected file's raw SHA-256. Uncommitted documentation
-is identified by these file hashes, not by the source commit alone. This is a
-local source projection; it carries no publication or redistribution permission.
+Version: `0.1.0.dev0`. Historical numerical equivalence and real-data validity
+remain unverified. No license has been selected; local availability does not
+establish redistribution permission. See [contributing](docs/contributing.md)
+and [bug reports](docs/guides/bug_report.md).

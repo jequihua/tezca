@@ -1,2 +1,2 @@
-# Reproduce the curated text projection on every checkout.
+# Keep text checkouts consistent on every platform.
 * text=auto eol=lf

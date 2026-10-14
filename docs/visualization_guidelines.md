@@ -1,9 +1,8 @@
 # Visualizing Tezca results outside Tezca
 
-Owner decision D026 excludes all plotting from Tezca. This guide is for future
+Tezca provides numerical results without plotting. This guide is for downstream
 documentation, notebooks and application code that consume Tezca's saved
-results. It is not a plotting API specification or a current implementation
-task. Rendering libraries belong to the separate notebook/application
+results. It is not a plotting API specification or a rendering implementation. Rendering libraries belong to the separate notebook/application
 environment; Tezca has no plotting extra, renderer, figure objects, dashboard,
 themes or automatic plotting on import, analysis, export or reload.
 
@@ -100,7 +99,7 @@ notebooks: dynamics/PSD, dominant periods, full PCA scree/effective dimension,
 mode loadings, eligible coherence rankings, dynamic connectivity, FI1
 trajectories/flags and reconstruction sensitivity. Density, graph and regime
 examples can follow the same principles. This list is guidance, not a promise
-of package functions or a requirement to create those notebooks in M005.
+of package functions of supplied notebooks.
 
 Each future example should include at least one unavailable or qualified result,
 not only an ideal curve. Use a small fixed synthetic case, disclose its meaning,

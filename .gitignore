@@ -1,4 +1,3 @@
-# Generated files and local environments
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -14,8 +13,6 @@ env/
 htmlcov/
 .tox/
 .nox/
-# Local data, outputs and credentials
-local_state/
 results/
 *-run/
 *-run.identity.json
@@ -33,4 +30,3 @@ temp/
 .idea/
 .DS_Store
 Thumbs.db
-# .front_repo_sync.json deliberately remains visible provenance.
