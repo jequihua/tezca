@@ -54,7 +54,7 @@ not establish scientific validity, provenance or bundle validation.
 
 ## Small runnable example
 
-Run this whole block in an environment with this checkout or its local wheel installed.
+Run this whole block in an environment with the local wheel built from this checkout installed.
 It needs no optional packages or input files and writes no files. It demonstrates
 observed data, a frozen training reference, a withheld unknown-provenance result,
 defensive ownership, and two independently inspectable numerical primitives.

@@ -237,7 +237,9 @@ rules include:
   grid. An empty peak selection remains `ok`. A null band denominator is the
   retained density-degeneracy diagnostic; its omitted input PSD cannot be
   recovered or independently certified by the summary loader. The complete
-  producer decisions and controls are in `delivery_coverage.md` (S01 r34).
+  producer decisions and controls are retained in development-only evidence
+  unavailable in this checkout. See the [qualification and evidence limits](../../04_delivery/qualification.md)
+  for the public summary; no omitted input evidence is recovered by reload.
   Declared FFT/segment counts are compared with supplied vectors before any
   count-driven iteration. The same checks apply to unavailable and generic
   native records and retained nested coherence support.

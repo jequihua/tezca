@@ -6,7 +6,7 @@ the timestamps, units, provenance (where each contribution came from), settings
 and reasons for unavailable results alongside the numbers.
 
 This is an **unreleased candidate for local testing**. It includes synthetic
-examples and buildable package source; build a local wheel or install the checkout. Local checks
+examples and buildable package source; build and install a local wheel. Local checks
 do not establish historical equivalence, validity on your field data, or
 permission to redistribute the package or its reference material. Sharing and
 publication require separate authorization. See the [qualification record](qualification.md)

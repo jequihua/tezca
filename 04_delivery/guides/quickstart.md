@@ -24,8 +24,6 @@ $DependencyWheels = Read-Host 'Path to the approved local dependency wheels dire
 ..\tezca-test-env\Scripts\python.exe -I -B -c "import tezca; print(tezca.__version__)"
 ```
 
-Alternatively install this checkout directly, after provisioning the same build
-tools: `..\tezca-test-env\Scripts\python.exe -m pip install --no-index --no-build-isolation --find-links "$DependencyWheels" .`.
 Generated build metadata is ignored. Keep any built wheel's raw SHA-256 separately;
 a rebuild is not claimed byte-identical to the earlier development candidate.
 

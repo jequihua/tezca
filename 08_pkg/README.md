@@ -38,7 +38,7 @@ does not automatically wire these implemented methods into an executable recipe.
 
 This source checkout keeps `pyproject.toml`, `08_pkg/README.md` and `08_pkg/src`
 together for builds. Follow the [source/wheel quickstart](../04_delivery/guides/quickstart.md)
-to install directly from this checkout or build and install a local wheel using
+to build from this checkout and install the resulting local wheel using
 approved offline dependencies. No retained wheel is bundled and no unpublished
 PyPI installation by name is implied. This checkout is distinct from the earlier
 wheel-only development handoff.

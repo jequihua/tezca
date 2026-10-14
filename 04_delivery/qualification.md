@@ -26,8 +26,12 @@ threadpoolctl 3.6.0 on CPython 3.11.9. No other platform/version combination is
 qualified merely by the package's declared ranges. No optional integration is
 newly qualified by this source projection.
 
-The local projection gate builds from the actual front checkout offline, compares
-package bytes with accepted source, installs into fresh core scratch, checks
+The corrected projection gate snapshots the exact front bytes in disposable Git
+fixtures, verifies fresh LF-policy checkouts with autocrlf true/false and archive
+bytes, and demonstrates a content-divergence refusal. It executes the quickstart
+wheel build/install commands from a fresh disposable checkout with sibling
+environment/output paths and approved offline wheels, compares package bytes
+with accepted LF source and checks
 optional absence, executes observed/supplied delivery and fresh validated reload,
 checks all 18 export families and runs the stdlib reader and API inventory. Its
 operator report is retained in development only. It supplements these receipts;
