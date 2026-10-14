@@ -1,0 +1,36 @@
+# Generated files and local environments
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv*/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+# Local data, outputs and credentials
+local_state/
+results/
+*-run/
+*-run.identity.json
+.env
+.env.*
+*.pem
+*.key
+credentials*
+secrets*
+*.log
+tmp/
+temp/
+.cache/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+# .front_repo_sync.json deliberately remains visible provenance.
